@@ -1,7 +1,11 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-/dist
+dist/*
+!/dist/v4
+!/dist/v5
+!/dist/v6
+
 /tmp
 /out-tsc
 
@@ -19,6 +23,7 @@
 *.sublime-workspace
 
 # IDE - VSCode
+*.code-workspace
 /.vscode
 .vscode/*
 !.vscode/settings.json
@@ -45,3 +50,6 @@ Thumbs.db
 
 # Mock API
 /api/node_modules
+
+# compiled templates
+src/app/homepage/pages/**/*.html

@@ -1,5 +1,5 @@
-@import "../../../../scss/variables.scss";
-@import "../../../../scss/utils.scss";
+@import '../../../../scss/variables.scss';
+@import '../../../../scss/utils.scss';
 
 :host {
   position: relative;
@@ -11,58 +11,69 @@ h3 {
   text-transform: uppercase;
   font-weight: bold;
   color: $black-color;
-  font-size: 16px;
-  letter-spacing: 0.2px;
+  font-size: 15px;
+  margin: 10px 0;
   &:hover {
     color: $red-color;
   }
 }
 
-  .active h3 {
-    color: $red-color;
-  }
+.active h3 {
+  color: $red-color;
+}
+
+.material-icons {
+  margin-right: 5px;
+}
 
 .arrow-icon {
   @extend .transition;
+  @include transform(rotate(90deg));
+
   position: absolute;
   top: 1px;
   right: 20px;
-  font-size: 22px;
+  font-size: 20px;
   cursor: pointer;
 }
 
-  li {
-    display: block;
-    padding: 8px 0;
+li {
+  display: block;
+  padding: 2.5px 0;
 
-    a {
-      color: $black-color;
-      font-size: 16px;
-      text-decoration: none;
-      cursor: pointer;
-      &:hover {
-        color: $red-color;
-      }
-      &.active { font-weight: 600; }
+  &:first-of-type {
+    padding-top: 0;
+  }
+
+  a {
+    color: $black-color;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+    &:hover {
+      color: $red-color;
     }
-
-    .pending {
-      color: #afafaf !important;
-      pointer-events: none;
+    &.active {
+      font-weight: 600;
+      color: $red-color;
     }
   }
+
+  .pending {
+    color: #afafaf !important;
+    pointer-events: none;
+  }
+}
 
 .nav-item {
   ul {
-    display: none;
+    margin: 10px 0 15px;
   }
+
   &.opened {
-    ul {
-      display: block;
-    }
     .arrow-icon {
-      @include transform(rotate(90deg));
-      color: $red-color;
+      @include transform(rotate(-90deg));
+      fill: $red-color;
     }
   }
 }
@@ -77,5 +88,16 @@ h3 {
 }
 
 ul {
-  padding-left: 25px;
+  padding-left: 15px;
+}
+
+.material-icons {
+  font-size: 14px;
+  margin-left: 3px;
+  vertical-align: middle;
+  padding-bottom: 4px;
+}
+
+.has-icon h3 {
+  color: $red-color;
 }

@@ -1,10 +1,11 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Input,
-  ChangeDetectionStrategy,
   OnInit,
 } from '@angular/core';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-menu',
@@ -13,7 +14,8 @@ import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuComponent implements OnInit {
-  @Input() isSidebarOpened = true;
+  @Input()
+  isSidebarOpened = true;
   readonly items = [
     {
       title: 'Introduction',
@@ -46,14 +48,34 @@ export class MenuComponent implements OnInit {
           path: '/fundamentals/async-providers',
         },
         {
+          title: 'Dynamic modules',
+          path: '/fundamentals/dynamic-modules',
+        },
+        {
+          title: 'Injection scopes',
+          path: '/fundamentals/injection-scopes',
+        },
+        {
           title: 'Circular dependency',
           path: '/fundamentals/circular-dependency',
+        },
+        {
+          title: 'Module reference',
+          path: '/fundamentals/module-ref',
+        },
+        {
+          title: 'Execution context',
+          path: '/fundamentals/execution-context',
+        },
+        {
+          title: 'Lifecycle events',
+          path: '/fundamentals/lifecycle-events',
         },
         {
           title: 'Platform agnosticism',
           path: '/fundamentals/platform-agnosticism',
         },
-        { title: 'Testing', path: '/fundamentals/unit-testing' },
+        { title: 'Testing', path: '/fundamentals/testing' },
       ],
     },
     {
@@ -63,14 +85,19 @@ export class MenuComponent implements OnInit {
         { title: 'Authentication', path: '/techniques/authentication' },
         { title: 'Database', path: '/techniques/database' },
         { title: 'Mongo', path: '/techniques/mongodb' },
-        { title: 'File upload', path: '/techniques/file-upload' },
-        { title: 'Logger', path: '/techniques/logger' },
-        { title: 'CORS', path: '/techniques/cors' },
         { title: 'Configuration', path: '/techniques/configuration' },
+        { title: 'Validation', path: '/techniques/validation' },
+        { title: 'Caching', path: '/techniques/caching' },
+        { title: 'Serialization', path: '/techniques/serialization' },
+        { title: 'Task scheduling', path: '/techniques/task-scheduling' },
+        { title: 'Compression', path: '/techniques/compression' },
+        { title: 'Security', path: '/techniques/security' },
+        { title: 'Queues', path: '/techniques/queues' },
+        { title: 'Logger', path: '/techniques/logger' },
+        { title: 'File upload', path: '/techniques/file-upload' },
         { title: 'HTTP module', path: '/techniques/http-module' },
         { title: 'Model-View-Controller', path: '/techniques/mvc' },
         { title: 'Performance (Fastify)', path: '/techniques/performance' },
-        { title: 'Hot reload (Webpack)', path: '/techniques/hot-reload' },
       ],
     },
     {
@@ -78,16 +105,25 @@ export class MenuComponent implements OnInit {
       isOpened: false,
       children: [
         { title: 'Quick start', path: '/graphql/quick-start' },
-        { title: 'Resolvers map', path: '/graphql/resolvers-map' },
+        { title: 'Resolvers', path: '/graphql/resolvers' },
         { title: 'Mutations', path: '/graphql/mutations' },
         { title: 'Subscriptions', path: '/graphql/subscriptions' },
         { title: 'Scalars', path: '/graphql/scalars' },
+        { title: 'Directives', path: '/graphql/directives' },
+        { title: 'Plugins', path: '/graphql/plugins' },
+        { title: 'Interfaces', path: '/graphql/interfaces' },
+        { title: 'Unions', path: '/graphql/unions' },
+        { title: 'Enums', path: '/graphql/enums' },
+        { title: 'Mapped types', path: '/graphql/mapped-types' },
+        { title: 'Complexity', path: '/graphql/complexity' },
+        { title: 'Extensions', path: '/graphql/extensions' },
+        { title: 'CLI Plugin', path: '/graphql/cli-plugin' },
+        { title: 'Generating SDL', path: '/graphql/generating-sdl' },
         {
-          title: 'Guards & interceptors',
-          path: '/graphql/guards-interceptors',
+          title: 'Other features',
+          path: '/graphql/other-features',
         },
-        { title: 'Schema stitching', path: '/graphql/schema-stitching' },
-        { title: 'IDE', path: '/graphql/ide' },
+        { title: 'Federation', path: '/graphql/federation' },
       ],
     },
     {
@@ -106,10 +142,12 @@ export class MenuComponent implements OnInit {
       title: 'Microservices',
       isOpened: false,
       children: [
-        { title: 'Basics', path: '/microservices/basics' },
+        { title: 'Overview', path: '/microservices/basics' },
         { title: 'Redis', path: '/microservices/redis' },
         { title: 'MQTT', path: '/microservices/mqtt' },
         { title: 'NATS', path: '/microservices/nats' },
+        { title: 'RabbitMQ', path: '/microservices/rabbitmq' },
+        { title: 'Kafka', path: '/microservices/kafka' },
         { title: 'gRPC', path: '/microservices/grpc' },
         {
           title: 'Exception filters',
@@ -121,9 +159,38 @@ export class MenuComponent implements OnInit {
       ],
     },
     {
-      title: 'Execution context',
+      title: 'Standalone apps',
       isOpened: false,
-      path: '/execution-context',
+      path: '/application-context',
+    },
+    {
+      title: 'CLI',
+      isOpened: false,
+      children: [
+        { title: 'Overview', path: '/cli/overview' },
+        { title: 'Workspaces', path: '/cli/monorepo' },
+        { title: 'Libraries', path: '/cli/libraries' },
+        { title: 'Usage', path: '/cli/usages' },
+        { title: 'Scripts', path: '/cli/scripts' },
+      ],
+    },
+    {
+      title: 'OpenAPI',
+      isOpened: false,
+      children: [
+        { title: 'Introduction', path: '/openapi/introduction' },
+        {
+          title: 'Types and Parameters',
+          path: '/openapi/types-and-parameters',
+        },
+        { title: 'Operations', path: '/openapi/operations' },
+        { title: 'Security', path: '/openapi/security' },
+        { title: 'Mapped Types', path: '/openapi/mapped-types' },
+        { title: 'Decorators', path: '/openapi/decorators' },
+        { title: 'CLI Plugin', path: '/openapi/cli-plugin' },
+        { title: 'Other features', path: '/openapi/other-features' },
+        { title: 'Migration guide', path: '/openapi/migration-guide' },
+      ],
     },
     {
       title: 'Recipes',
@@ -132,32 +199,27 @@ export class MenuComponent implements OnInit {
         { title: 'TypeORM', path: '/recipes/sql-typeorm' },
         { title: 'Mongoose', path: '/recipes/mongodb' },
         { title: 'Sequelize', path: '/recipes/sql-sequelize' },
-        // { title: 'Authentication (Passport)', path: '/recipes/passport' },
-        { title: 'CQRS', path: '/recipes/cqrs' },
         { title: 'OpenAPI (Swagger)', path: '/recipes/swagger' },
-      ],
-    },
-    {
-      title: 'CLI',
-      isOpened: false,
-      children: [
-        { title: 'Overview', path: '/cli/overview' },
-        { title: 'Usage', path: '/cli/usages' },
+        { title: 'CQRS', path: '/recipes/cqrs' },
+        { title: 'Prisma', path: '/recipes/prisma' },
+        { title: 'Health checks (Terminus)', path: '/recipes/terminus' },
+        { title: 'Documentation', path: '/recipes/documentation' },
+        { title: 'Hot reload', path: '/recipes/hot-reload' },
+        { title: 'Serve static', path: '/recipes/serve-static' },
       ],
     },
     {
       title: 'FAQ',
       isOpened: false,
       children: [
-        { title: 'Express instance', path: '/faq/express-instance' },
+        { title: 'HTTP adapter', path: '/faq/http-adapter' },
         { title: 'Global path prefix', path: '/faq/global-prefix' },
-        { title: 'Lifecycle events', path: '/faq/lifecycle-events' },
         { title: 'Hybrid application', path: '/faq/hybrid-application' },
         { title: 'HTTPS & multiple servers', path: '/faq/multiple-servers' },
+        { title: 'Request lifecycle', path: '/faq/request-lifecycle' },
         {
           title: 'Examples',
-          externalUrl:
-            'https://github.com/kamilmysliwiec/nest/tree/master/sample',
+          externalUrl: 'https://github.com/nestjs/nest/tree/master/sample',
         },
       ],
     },
@@ -167,14 +229,22 @@ export class MenuComponent implements OnInit {
       path: '/migration-guide',
     },
     {
-      title: 'Support me',
-      isOpened: false,
-      path: '/support',
+      title: 'Official courses',
+      externalUrl: 'https://courses.nestjs.com/',
     },
     {
-      title: 'V4',
+      title: 'Discover',
       isOpened: false,
-      externalUrl: 'https://docs.nestjs.com/v4/',
+      children: [{ title: 'Who is using Nest?', path: '/discover/companies' }],
+    },
+    {
+      title: 'T-Shirts and Hoodies',
+      externalUrl: 'https://nestjs.threadless.com/',
+    },
+    {
+      title: 'Support us',
+      isOpened: false,
+      path: '/support',
     },
   ];
 
@@ -185,7 +255,7 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
     this.router.events
-      .filter((event) => event instanceof NavigationEnd)
+      .pipe(filter((ev) => ev instanceof NavigationEnd))
       .subscribe((event) => this.toggleCategory());
 
     this.toggleCategory();
@@ -193,7 +263,12 @@ export class MenuComponent implements OnInit {
 
   toggleCategory() {
     const { firstChild } = this.route.snapshot;
-    if (firstChild.url && firstChild.url[1]) {
+    if (
+      (firstChild.url && firstChild.url[1]) ||
+      (firstChild.url &&
+        firstChild.routeConfig &&
+        firstChild.routeConfig.loadChildren)
+    ) {
       const { path } = firstChild.url[0];
       const index = this.items.findIndex(
         ({ title }) => title.toLowerCase() === path,

@@ -1,25 +1,26 @@
-@import "../../../scss/variables.scss";
-@import "../../../scss/utils.scss";
+@import '../../../scss/variables.scss';
+@import '../../../scss/utils.scss';
 
 :host {
   @extend .transition;
   @extend .box-sizing;
   background: $black-color;
   display: block;
-  height: 108px;
-  padding: 16px 2px 16px 52px;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: 0;
+  padding: 40px 0;
+  margin: 0 -85px;
   width: auto;
-  font-size: 15px;
+  font-size: 14px;
+  position: relative;
+  z-index: 12;
 
-  @include media(medium) { 
+  @include media(large) {
+    margin: 0 -50px;
+  }
+
+  @include media(medium) {
     padding: 15px;
-    margin: 0 -30px; 
-    width: calc(100% + 60px);
+    margin: 0 -20px;
+    width: calc(100% + 40px);
     position: static;
     height: auto;
     text-align: center;
@@ -29,45 +30,55 @@
 footer {
   display: block;
   position: relative;
-  color: #717171;
+  color: #929292;
+  text-align: center;
 
   a {
     @extend .transition;
-    color: #717171;
+    color: $red-color;
+    font-weight: 600;
     &:hover {
-      color: $white-color;
+      color: $red-color;
     }
   }
 
+  .separator {
+    display: inline-block;
+    width: 2px;
+    height: 12px;
+    margin: 0 3px 0 5px;
+    vertical-align: middle;
+    background: #313131;
+  }
+
   p {
-    line-height: 27px;
+    line-height: 25px;
+    margin-bottom: 0;
   }
 }
 
 .social-wrapper {
-  @extend .center-top;
-  position: absolute;
+  text-align: center;
   right: 40px;
 
-  @include media(medium) {
-    @include transform(translateX(0) translateY(0));
-    position: static;
-    text-align: center;
-  }
   a {
     @extend .transition;
     display: inline-block;
     vertical-align: middle;
-    color: $darksilver-color;
-    font-size: 22px;
-    margin-left: 10px;
+    color: $silver-color;
+    font-size: 20px;
+    margin-left: 15px;
     cursor: pointer;
 
     &:first-of-type {
       font-size: 20px;
     }
     &:hover {
-      color: $white-color;
+      color: $red-color;
     }
+  }
+
+  @media print {
+    display: none;
   }
 }
